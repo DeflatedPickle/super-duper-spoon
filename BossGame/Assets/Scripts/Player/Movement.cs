@@ -5,10 +5,10 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Movement : MonoBehaviour {
-    [Range(1, 8)] public int MoveForce = 8;
+    [Range(1, 10)] public int MoveForce = 8;
 
-    [Range(1, 3)] public float DashForce = 3;
-    [Range(0, 1)] public float DashTime = 0.4f;
+    [Range(1, 10)] public float DashForce = 3;
+    [Range(0, 4)] public float DashTime = 0.4f;
     private float _dashTimer;
     private bool _doDash;
 
@@ -74,15 +74,15 @@ public class Movement : MonoBehaviour {
                     _rigidbody2D.velocity = Vector2.up * DashForce;
                 }
                 // South
-                if (_south && !_north && !_east && !_west) {
+                if (!_north && _south && !_east && !_west) {
                     _rigidbody2D.velocity = Vector2.down * DashForce;
                 }
                 // East
-                if (_east && !_north && !_south && !_west) {
+                if (!_north && !_south && _east && !_west) {
                     _rigidbody2D.velocity = Vector2.right * DashForce;
                 }
                 // West
-                if (_west && !_north && !_south && !_east) {
+                if (!_north && !_south && !_east && _west) {
                     _rigidbody2D.velocity = Vector2.left * DashForce;
                 }
             }
