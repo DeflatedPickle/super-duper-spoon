@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// ReSharper disable once CheckNamespace
 [RequireComponent(typeof(Rigidbody2D))]
-public class Movement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour {
     [Range(1, 10)] public int MoveForce = 8;
 
     [Range(1, 10)] public float DashForce = 3;
@@ -22,11 +23,11 @@ public class Movement : MonoBehaviour {
     private bool _east;
     private bool _west;
 
-    void Awake() {
+    private void Awake() {
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    void Update() {
+    private void Update() {
         var moveCalc = new Vector2();
 
         // Movement
@@ -51,7 +52,7 @@ public class Movement : MonoBehaviour {
         }
 
         // Dash
-        if (Input.GetMouseButtonDown(1)) {
+        if (Input.GetKey(KeyCode.Space)) {
             _doDash = true;
         }
 
