@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <inheritdoc />
+/// <summary>
+/// An effect applied by a weapon or a charm
+/// </summary>
+// ReSharper disable once CheckNamespace
 public class Effect : MonoBehaviour {
     public enum EffectType {
         DamageMelee,
@@ -17,32 +22,32 @@ public class Effect : MonoBehaviour {
     /// <summary>
     /// The type the effect is
     /// </summary>
-    public EffectType TypeEffect;
+    public EffectType effectType;
 
     /// <summary>
     /// How long the effect will be applied on the entity
     /// </summary>
-    public float EffectLength;
+    public float effectLength;
 
     /// <summary>
     /// The amount inflicted on the entity
     /// </summary>
-    public float InflictAmount;
+    public float inflictAmount;
 
     /// <summary>
     /// An ammount applied to the inflict amount
     /// </summary>
-    public float InflictMultiplier;
+    public float inflictMultiplier;
 
     /// <summary>
     /// The type the inflict is
     /// </summary>
-    public InflictType TypeInflict;
+    public InflictType typeInflict;
 
     /// <summary>
     /// The entity with the effect
     /// </summary>
-    public GameObject Entity;
+    public GameObject entity;
 
     void Start() {
     }

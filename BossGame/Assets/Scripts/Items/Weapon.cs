@@ -6,42 +6,42 @@ using UnityEngine;
 // ReSharper disable once CheckNamespace
 public class Weapon : Item {
     /// <summary>
-    /// The amount of damage applied by the weapon during the swing time
+    /// The amount of damage applied by the weapon
     /// </summary>
-    public float ItemDamage;
+    public float weaponDamage;
 
     /// <summary>
     /// The amount of time the weapon can apply damage for
     /// </summary>
-    public float AttackTime;
+    public float attackTime;
 
     /// <summary>
     /// If or not the weapon has been swung
     /// </summary>
-    public float IsRecovering;
+    public bool isRecovering;
 
     /// <summary>
     /// The amount of time it takes to recover from an attack
     /// </summary>
-    public float RecoverTime;
+    public float recoverTime;
 
     /// <summary>
     /// If the weapon can block melee attacks
     /// </summary>
-    public bool CanBlockMelee;
+    public bool canBlockMelee;
 
     /// <summary>
     /// The amount of melee damage that can be blocked (-1 for all)
     /// </summary>
-    public float BlockMeleeAmount;
+    public float blockMeleeAmount;
 
     /// <summary>If the weapon can block ranged attacks</summary>
-    public bool CanBlockRanged;
+    public bool canBlockRanged;
 
     /// <summary>
     /// The amount of ranged damage that can be blocked (-1 for all)
     /// </summary>
-    public float BlockRangeAmount;
+    public float blockRangeAmount;
 
     private void Start() {
     }
@@ -49,7 +49,11 @@ public class Weapon : Item {
     private void Update() {
         // Attack
         if (Input.GetMouseButtonDown(0)) {
-            
+            Debug.Log("Attacking");
+        }
+        // Block
+        else if (Input.GetMouseButtonDown(1)) {
+            Debug.Log("Blocking");
         }
     }
 }
