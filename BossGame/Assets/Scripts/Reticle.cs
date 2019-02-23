@@ -4,11 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Reticle : MonoBehaviour {
-    private Camera _camera;
     private RectTransform _rectTransform;
 
     private void Start() {
-        _camera = FindObjectOfType<Camera>();
         _rectTransform = GetComponent<RectTransform>();
     }
 
