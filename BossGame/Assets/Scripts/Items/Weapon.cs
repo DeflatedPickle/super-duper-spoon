@@ -131,8 +131,10 @@ public class Weapon : Item {
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.CompareTag("Enemy")) {
-            transform.parent.GetComponent<ImmobilizeEntity>().entity = other.gameObject;
-            transform.parent.GetComponent<ImmobilizeEntity>().entityStats = other.gameObject.GetComponent<Stats>();
+            var immobilizeEntity = transform.parent.GetComponent<ImmobilizeEntity>();
+            immobilizeEntity.entity = other.gameObject;
+            immobilizeEntity.entityStats = other.gameObject.GetComponent<Stats>();
+            immobilizeEntity.entityStats.stuckTo = gameObject;
         }
     }
 }

@@ -7,20 +7,23 @@ public class ImmobilizeEntity : MonoBehaviour {
     public Stats entityStats;
 
     public void StickEntity() {
-        //if (entityStats != null) {
+        if (entity != null) {
+            Debug.Log("Stick");
             entityStats.canMove = false;
             entityStats.isStuck = true;
-
-            entityStats.stuckTo = transform.GetChild(0).gameObject;
-        //}
+        }
     }
 
     public void UnstickEntity() {
-        //if (entityStats != null) {
+        if (entity != null) {
+            Debug.Log("Unstick");
             entityStats.canMove = true;
             entityStats.isStuck = false;
 
             entityStats.stuckTo = null;
-        //}
+            
+            entityStats = null;
+            entity = null;
+        }
     }
 }
