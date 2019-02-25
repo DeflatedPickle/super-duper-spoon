@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ImmobilizeEntity : MonoBehaviour {
     public GameObject entity;
-    public Stats entityStats;
+    public LivingStats entityStats;
 
     public void StickEntity() {
         if (entity != null) {

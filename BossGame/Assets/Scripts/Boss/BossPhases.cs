@@ -9,7 +9,7 @@ public class BossPhases : MonoBehaviour {
     public int currentPhase;
 
     private GameObject _player;
-    private Stats _stats;
+    private LivingStats _stats;
 
     public bool isCharging;
     private int _chargeChance;
@@ -20,7 +20,7 @@ public class BossPhases : MonoBehaviour {
     private void Awake() {
         _player = GameObject.Find("Player");
 
-        _stats = GetComponent<Stats>();
+        _stats = GetComponent<LivingStats>();
     }
 
     private void Update() {

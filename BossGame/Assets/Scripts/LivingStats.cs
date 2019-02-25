@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
-public class Stats : MonoBehaviour {
+public class LivingStats : MonoBehaviour {
     public float health;
     public float currentHealth;
 

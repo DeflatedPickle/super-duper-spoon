@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GenericEnemy : MonoBehaviour {
-    private Stats _stats;
+    private LivingStats _stats;
 
     private void Awake() {
-        _stats = GetComponent<Stats>();
+        _stats = GetComponent<LivingStats>();
     }
 
     void Update() {

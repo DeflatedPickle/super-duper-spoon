@@ -673,11 +673,11 @@ AnimationClip:
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.31666666
-    functionName: SetDamage
+  - time: 0.51666665
+    functionName: StartDamaging
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 3
+    floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.55
@@ -687,22 +687,36 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.5833333
+  - time: 0.71666664
+    functionName: SetDamage
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 3
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.85
     functionName: SetDamage
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 5
     intParameter: 0
     messageOptions: 0
-  - time: 0.75
+  - time: 1.0166667
+    functionName: UnstickEntity
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.1666666
     functionName: SetDamage
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.8666667
-    functionName: UnstickEntity
+  - time: 1.25
+    functionName: StopDamaging
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

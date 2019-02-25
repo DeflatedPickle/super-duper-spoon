@@ -79,6 +79,8 @@ public class Weapon : Item {
     /// </summary>
     public float blockRangeAmount;
 
+    public bool doesStick;
+
     private bool _setGeneralCounter;
     private float _generalWaitCounter;
 
@@ -130,11 +132,13 @@ public class Weapon : Item {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.CompareTag("Enemy")) {
-            var immobilizeEntity = transform.parent.GetComponent<ImmobilizeEntity>();
-            immobilizeEntity.entity = other.gameObject;
-            immobilizeEntity.entityStats = other.gameObject.GetComponent<Stats>();
-            immobilizeEntity.entityStats.stuckTo = gameObject;
+        if (doesStick) {
+            if (other.gameObject.CompareTag("Enemy")) {
+                var immobilizeEntity = transform.parent.GetComponent<ImmobilizeEntity>();
+                immobilizeEntity.entity = other.gameObject;
+                immobilizeEntity.entityStats = other.gameObject.GetComponent<LivingStats>();
+                immobilizeEntity.entityStats.stuckTo = gameObject;
+            }
         }
     }
 }

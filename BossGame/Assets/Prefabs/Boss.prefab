@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 9022450949715736978}
   - component: {fileID: 3594051752816568223}
   - component: {fileID: 6207610913509369274}
+  - component: {fileID: 875147282}
   m_Layer: 0
   m_Name: Boss
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,3 +125,15 @@ MonoBehaviour:
   canMove: 1
   isStuck: 0
   stuckTo: {fileID: 0}
+--- !u!114 &875147282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8975950538520145655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed75b2bf85bfd947a5ac890fe30bac0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
