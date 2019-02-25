@@ -204,6 +204,7 @@ GameObject:
   - component: {fileID: 261945501}
   - component: {fileID: 261945500}
   - component: {fileID: 261945499}
+  - component: {fileID: 261945502}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -243,9 +244,9 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 17
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 2.25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -275,6 +276,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &261945502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261945498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73293ed747fd60f4eba9a4f3d959a237, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  copyPositionX: 1
+  copyPositionY: 1
+  copyPositionZ: 0
+  copyRotation: 0
+  parent: {fileID: 199710577}
 --- !u!1 &1176280558
 GameObject:
   m_ObjectHideFlags: 0
@@ -646,6 +664,21 @@ PrefabInstance:
       propertyPath: entity
       value: 
       objectReference: {fileID: 199710577}
+    - target: {fileID: 7513053108513421054, guid: a5393e1a4bfab3a4cadc777979e35931,
+        type: 3}
+      propertyPath: recoverTime
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 7513053108513421054, guid: a5393e1a4bfab3a4cadc777979e35931,
+        type: 3}
+      propertyPath: setupTime
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7513053108513421054, guid: a5393e1a4bfab3a4cadc777979e35931,
+        type: 3}
+      propertyPath: isRecovering
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5393e1a4bfab3a4cadc777979e35931, type: 3}
 --- !u!4 &4191736970204357341 stripped

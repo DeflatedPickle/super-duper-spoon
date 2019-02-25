@@ -87,15 +87,15 @@ public class Weapon : Item {
         if (Input.GetMouseButtonDown(0)) {
             switch (attackType) {
                 case AttackType.Swing:
-                    if (_attackTimeCounter <= 0f) {
+                    if (!isAttacking) {
                         // If it's not recovering
-                        if (_recoverTimeCounter <= 0f) {
+                        if (!isRecovering) {
                             // If it's not setting up
-                            if (_setupTimeCounter <= 0f) {
+                            if (!isSettingUp) {
                                 _setupTimeCounter = setupTime;
                                 isSettingUp = true;
                                 
-                                transform.rotation = entity.transform.rotation;
+                                transform.parent.rotation = transform.parent.rotation;
                             }
                         }
                     }
@@ -136,7 +136,7 @@ public class Weapon : Item {
 
                 switch (attackType) {
                     case AttackType.Swing:
-                        transform.Rotate(0f, 0f, (setupTime * -1) * 2 / 10);
+                        transform.parent.Rotate(0f, 0f, (setupTime * -1) * 2 / 10);
                         break;
 
                     case AttackType.Throw:
@@ -178,7 +178,7 @@ public class Weapon : Item {
 
                 switch (attackType) {
                     case AttackType.Swing:
-                        transform.Rotate(0f, 0f, attackTime * 2 / 10);
+                        transform.parent.Rotate(0f, 0f, attackTime * 2 / 10);
                         break;
 
                     case AttackType.Throw:
@@ -220,7 +220,7 @@ public class Weapon : Item {
 
                 switch (attackType) {
                     case AttackType.Swing:
-                        transform.Rotate(0f, 0f, (recoverTime * -1) / 10);
+                        transform.parent.Rotate(0f, 0f, (recoverTime * -1) * 2 / 10);
                         break;
 
                     case AttackType.Throw:
@@ -232,6 +232,9 @@ public class Weapon : Item {
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+            }
+            else {
+                isRecovering = false;
             }
         }
     }
