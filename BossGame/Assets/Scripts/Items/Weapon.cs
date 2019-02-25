@@ -82,22 +82,21 @@ public class Weapon : Item {
     private bool _setGeneralCounter;
     private float _generalWaitCounter;
 
+    private Animator _animator;
+    private static readonly int IsSwinging = Animator.StringToHash("IsSwinging");
+
+    private void Awake() {
+        _animator = transform.parent.GetComponent<Animator>();
+    }
+    
+
     private void Update() {
         // Attack
         if (Input.GetMouseButtonDown(0)) {
             switch (attackType) {
                 case AttackType.Swing:
-                    if (!isAttacking) {
-                        // If it's not recovering
-                        if (!isRecovering) {
-                            // If it's not setting up
-                            if (!isSettingUp) {
-                                _setupTimeCounter = setupTime;
-                                isSettingUp = true;
-                                
-                                transform.parent.rotation = transform.parent.rotation;
-                            }
-                        }
+                    if (!_animator.GetBool(IsSwinging)) {
+                        _animator.SetTrigger(IsSwinging);
                     }
 
                     break;
@@ -128,114 +127,12 @@ public class Weapon : Item {
                     throw new ArgumentOutOfRangeException();
             }
         }
+    }
 
-        if (isSettingUp) {
-            if (_setupTimeCounter > 0f) {
-                Debug.Log("Perform setup");
-                _setupTimeCounter--;
-
-                switch (attackType) {
-                    case AttackType.Swing:
-                        transform.parent.Rotate(0f, 0f, (setupTime * -1) * 2 / 10);
-                        break;
-
-                    case AttackType.Throw:
-                        break;
-
-                    case AttackType.Shoot:
-                        break;
-
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-            else if (_setupTimeCounter == 0f) {
-                _setGeneralCounter = true;
-                _setupTimeCounter--;
-            }
-            else if (_setupTimeCounter < 0f) {
-                if (_setGeneralCounter) {
-                    _generalWaitCounter = 16;
-                    _setGeneralCounter = false;
-                }
-
-                if (_generalWaitCounter > 0) {
-                    Debug.Log("Waiting...");
-                    _generalWaitCounter--;
-                }
-                else {
-                    _attackTimeCounter = attackTime;
-                    isAttacking = true;
-                    isSettingUp = false;
-                }
-            }
-        }
-
-        if (isAttacking) {
-            if (_attackTimeCounter > 0f) {
-                Debug.Log("Perform attack");
-                _attackTimeCounter--;
-
-                switch (attackType) {
-                    case AttackType.Swing:
-                        transform.parent.Rotate(0f, 0f, attackTime * 2 / 10);
-                        break;
-
-                    case AttackType.Throw:
-                        break;
-
-                    case AttackType.Shoot:
-                        break;
-
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-            else if (_attackTimeCounter == 0f) {
-                _setGeneralCounter = true;
-                _attackTimeCounter--;
-            }
-            else if (_attackTimeCounter <= 0f) {
-                if (_setGeneralCounter) {
-                    _generalWaitCounter = 26;
-                    _setGeneralCounter = false;
-                }
-
-                if (_generalWaitCounter > 0) {
-                    Debug.Log("Waiting...");
-                    _generalWaitCounter--;
-                }
-                else {
-                    _recoverTimeCounter = recoverTime;
-                    isRecovering = true;
-                    isAttacking = false;
-                }
-            }
-        }
-
-        if (isRecovering) {
-            if (_recoverTimeCounter > 0f) {
-                Debug.Log("Perform recover");
-                _recoverTimeCounter--;
-
-                switch (attackType) {
-                    case AttackType.Swing:
-                        transform.parent.Rotate(0f, 0f, (recoverTime * -1) * 2 / 10);
-                        break;
-
-                    case AttackType.Throw:
-                        break;
-
-                    case AttackType.Shoot:
-                        break;
-
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-            else {
-                isRecovering = false;
-            }
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject.CompareTag("Enemy")) {
+            transform.parent.GetComponent<ImmobilizeEntity>().entity = other.gameObject;
+            transform.parent.GetComponent<ImmobilizeEntity>().entityStats = other.gameObject.GetComponent<Stats>();
         }
     }
 }
