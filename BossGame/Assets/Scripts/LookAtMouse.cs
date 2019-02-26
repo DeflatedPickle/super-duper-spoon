@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LookAtMouse : MonoBehaviour {
+    public bool shouldLook = true;
+    
     private Camera _camera;
 
     private void Start() {
@@ -10,12 +12,14 @@ public class LookAtMouse : MonoBehaviour {
     }
 
     private void Update() {
-        var mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+        if (shouldLook) {
+            var mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
 
-        // ReSharper disable once Unity.InefficientPropertyAccess
-        var direction = new Vector2(mousePosition.x - transform.position.x, mousePosition.y - transform.position.y);
+            // ReSharper disable once Unity.InefficientPropertyAccess
+            var direction = new Vector2(mousePosition.x - transform.position.x, mousePosition.y - transform.position.y);
 
-        // ReSharper disable once Unity.InefficientPropertyAccess
-        transform.up = direction;
+            // ReSharper disable once Unity.InefficientPropertyAccess
+            transform.up = direction;
+        }
     }
 }

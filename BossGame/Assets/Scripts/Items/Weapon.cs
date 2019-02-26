@@ -81,24 +81,31 @@ public class Weapon : Item {
 
     public bool doesStick;
 
-    private bool _setGeneralCounter;
-    private float _generalWaitCounter;
+    protected GameObject Player;
+    protected GameObject Hand;
+    protected Animator Animator;
+    protected Rigidbody2D Rigidbody2D;
+    protected Camera Camera;
+    protected LookAtMouse LookAtMouse;
 
-    private Animator _animator;
     private static readonly int IsSwinging = Animator.StringToHash("IsSwinging");
 
     private void Awake() {
-        _animator = transform.parent.GetComponent<Animator>();
+        Player = GameObject.Find("Player");
+        Hand = Player.transform.GetChild(0).gameObject;
+        Animator = transform.parent.GetComponent<Animator>();
+        Rigidbody2D = GetComponent<Rigidbody2D>();
+        Camera = FindObjectOfType<Camera>();
+        LookAtMouse = GetComponent<LookAtMouse>();
     }
-    
 
     private void Update() {
         // Attack
         if (Input.GetMouseButtonDown(0)) {
             switch (attackType) {
                 case AttackType.Swing:
-                    if (!_animator.GetBool(IsSwinging)) {
-                        _animator.SetTrigger(IsSwinging);
+                    if (!Animator.GetBool(IsSwinging)) {
+                        Animator.SetTrigger(IsSwinging);
                     }
 
                     break;
@@ -132,9 +139,9 @@ public class Weapon : Item {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (doesStick) {
-            if (other.gameObject.CompareTag("Enemy")) {
-                var immobilizeEntity = transform.parent.GetComponent<ImmobilizeEntity>();
+        if (other.gameObject.CompareTag("Enemy")) {
+            if (doesStick) {
+                var immobilizeEntity = Hand.GetComponent<ImmobilizeEntity>();
                 immobilizeEntity.entity = other.gameObject;
                 immobilizeEntity.entityStats = other.gameObject.GetComponent<LivingStats>();
                 immobilizeEntity.entityStats.stuckTo = gameObject;
