@@ -24,44 +24,31 @@ public class WeaponThrown : Weapon {
         _handlePoint = replacementObject.transform.GetChild(0).gameObject;
     }
 
-    private void Update() {
+    protected new void Update() {
+        base.Update();
         _knifePoint.transform.localPosition = _knifePointPosition;
         _handlePoint.transform.localPosition = _handlePointPosition;
-        
+
         // Attack
-        if (Input.GetMouseButtonDown(0)) {
-            // Pick it up
-            if (stuckInObject || stuckInFloor) {
+        // if (Input.GetMouseButtonDown(0)) {
+        // }
+
+        // Pick it up
+        if (stuckInObject || stuckInFloor) {
+            if (Input.GetMouseButtonDown(0)) {
                 transform.parent = null;
                 ImmobilizeEntity.UnstickEntity();
 
                 returning = true;
             }
-            else {
-                // Throw it
-                if (!inAir) {
-                    // ReSharper disable once Unity.InefficientPropertyAccess
-                    transform.parent = null;
+        }
+        else {
+            if (MethodPassThrough.throwingWeapon) {
+                MethodPassThrough.throwingWeapon = false;
 
-                    // _rigidbody2D.AddRelativeForce(Vector2.up * 140);
+                LookAtMouse.shouldLook = true;
 
-                    var mousePosition = Camera.ScreenToWorldPoint(Input.mousePosition);
-                    mousePosition.z = 0f;
-                    var direction = (mousePosition - transform.position).normalized;
-                    Rigidbody2D.AddForce(direction * 180);
-                    PlayerRigidbody2D.AddForce(direction * 80);
-
-                    inAir = true;
-                    stuckInObject = false;
-                    stuckInFloor = false;
-
-                    returning = false;
-
-                    // Stop looking at the mouse when we throw it
-                    LookAtMouse.shouldLook = false;
-
-                    replacementObject.SetActive(true);
-                }
+                ThrowWeapon();
             }
         }
 
@@ -87,6 +74,33 @@ public class WeaponThrown : Weapon {
 
                 transform.rotation = new Quaternion(-3, 2, 0f, 0f);
             }
+        }
+    }
+
+    private void ThrowWeapon() {
+        // Throw it
+        if (!inAir) {
+            // ReSharper disable once Unity.InefficientPropertyAccess
+            transform.parent = null;
+
+            // _rigidbody2D.AddRelativeForce(Vector2.up * 140);
+
+            var mousePosition = Camera.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition.z = 0f;
+            var direction = (mousePosition - transform.position).normalized;
+            Rigidbody2D.AddForce(direction * 180);
+            PlayerRigidbody2D.AddForce(direction * 80);
+
+            inAir = true;
+            stuckInObject = false;
+            stuckInFloor = false;
+
+            returning = false;
+
+            // Stop looking at the mouse when we throw it
+            LookAtMouse.shouldLook = false;
+
+            replacementObject.SetActive(true);
         }
     }
 

@@ -85,25 +85,32 @@ public class Weapon : Item {
     protected Rigidbody2D PlayerRigidbody2D;
     protected GameObject Hand;
     protected ImmobilizeEntity ImmobilizeEntity;
-    private Animator _animator;
     protected Rigidbody2D Rigidbody2D;
     protected Camera Camera;
     protected LookAtMouse LookAtMouse;
+    protected MethodPassThrough MethodPassThrough;
+    protected WeaponThrown WeaponThrown;
+    
+    private Animator _animator;
 
     private static readonly int IsSwinging = Animator.StringToHash("IsSwinging");
+    private static readonly int IsThrowing = Animator.StringToHash("IsThrowing");
 
     private void Awake() {
         Player = GameObject.Find("Player");
         PlayerRigidbody2D = Player.GetComponent<Rigidbody2D>();
         Hand = Player.transform.GetChild(0).gameObject;
         ImmobilizeEntity = Hand.GetComponent<ImmobilizeEntity>();
-        _animator = transform.parent.GetComponent<Animator>();
+        MethodPassThrough = Hand.GetComponent<MethodPassThrough>();
         Rigidbody2D = GetComponent<Rigidbody2D>();
         Camera = FindObjectOfType<Camera>();
         LookAtMouse = GetComponent<LookAtMouse>();
+        WeaponThrown = GetComponent<WeaponThrown>();
+        
+        _animator = transform.parent.GetComponent<Animator>();
     }
 
-    private void Update() {
+    protected void Update() {
         // Attack
         if (Input.GetMouseButtonDown(0)) {
             switch (attackType) {
@@ -115,6 +122,14 @@ public class Weapon : Item {
                     break;
 
                 case AttackType.Throw:
+                    if (WeaponThrown.returning) {
+                        if (!_animator.GetBool(IsThrowing)) {
+                            _animator.SetTrigger(IsThrowing);
+
+                            LookAtMouse.shouldLook = false;
+                            WeaponThrown.returning = false;
+                        }
+                    }
                     break;
 
                 case AttackType.Shoot:

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DamagePassThrough : MonoBehaviour {
+public class MethodPassThrough : MonoBehaviour {
     public float damage;
+    public bool throwingWeapon;
+    public bool rotate;
 
     private GameObject _collider;
     
@@ -21,5 +23,9 @@ public class DamagePassThrough : MonoBehaviour {
         Debug.Log("Stopped damaging");
         damage = 0;
         _collider.GetComponent<BoxCollider2D>().enabled = false;
+    }
+
+    public void ThrowWeapon() {
+        throwingWeapon = true;
     }
 }
