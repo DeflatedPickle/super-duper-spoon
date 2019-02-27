@@ -16,12 +16,18 @@ public class WeaponThrown : Weapon {
     private GameObject _knifePoint;
     private GameObject _handlePoint;
 
+    private readonly Vector3 _knifePointPosition = new Vector3(0f, -0.065f, 0f);
+    private readonly Vector3 _handlePointPosition = new Vector3(0f, 0.065f, 0f);
+
     private void Start() {
         _knifePoint = transform.GetChild(0).gameObject;
         _handlePoint = replacementObject.transform.GetChild(0).gameObject;
     }
 
     private void Update() {
+        _knifePoint.transform.localPosition = _knifePointPosition;
+        _handlePoint.transform.localPosition = _handlePointPosition;
+        
         // Attack
         if (Input.GetMouseButtonDown(0)) {
             // Pick it up
@@ -63,7 +69,7 @@ public class WeaponThrown : Weapon {
             transform.position = Hand.transform.position;
             transform.parent = Hand.transform;
 
-            replacementObject.SetActive(false);
+            // replacementObject.SetActive(false);
 
             LookAtMouse.shouldLook = true;
 
@@ -85,8 +91,12 @@ public class WeaponThrown : Weapon {
     }
 
     private void OnDrawGizmos() {
-        if (replacementObject.activeSelf) {
-            Debug.DrawLine(_handlePoint.transform.position, _knifePoint.transform.position);
+        if (replacementObject != null) {
+            if (replacementObject.activeSelf) {
+                if (_handlePoint != null && _knifePoint != null) {
+                    Debug.DrawLine(_handlePoint.transform.position, _knifePoint.transform.position);
+                }
+            }
         }
     }
 
