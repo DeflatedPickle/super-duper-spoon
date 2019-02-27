@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour {
     private int _facingVertical = 1;
 
     private Rigidbody2D _rigidbody2D;
+    private LivingStats _livingStats;
 
     private bool _north;
     private bool _south;
@@ -25,9 +26,43 @@ public class PlayerMovement : MonoBehaviour {
 
     private void Awake() {
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _livingStats = GetComponent<LivingStats>();
     }
 
     private void Update() {
+        MoveForce = 8;
+        DashForce = 3;
+        
+        if (_livingStats.equippedWeapon != null) {
+            var item = _livingStats.equippedWeapon.transform;
+            var weaponThrown = item.GetComponent<WeaponThrown>();
+
+            if (weaponThrown) {
+                if (weaponThrown.inAir || weaponThrown.stuckInObject || weaponThrown.stuckInFloor) {
+                    if (Vector3.Distance(transform.position, item.position) > 1.5f) {
+                        if (weaponThrown.stuckInFloor) {
+                            transform.position = Vector3.MoveTowards(transform.position, item.transform.position, 0.01f);
+                            return;
+                        }
+
+                        MoveForce /= 6;
+                        DashForce /= 1.5f;
+
+                        // item.transform.parent = null;
+                        
+                        // item.transform.position = Vector3.MoveTowards(item.transform.position, transform.position, 0.004f);
+                        weaponThrown.stuckObject.transform.position = Vector3.MoveTowards(weaponThrown.stuckObject.transform.position, transform.position, 0.004f);
+                        
+                        // ReSharper disable Unity.InefficientPropertyAccess
+                        var direction = new Vector2(transform.position.x - item.transform.position.x, transform.position.y - item.transform.position.y);
+                        // ReSharper restore Unity.InefficientPropertyAccess
+                        // item.up = -direction;
+                        weaponThrown.stuckObject.transform.up = -direction;
+                    }
+                }
+            }
+        }
+
         var moveCalc = new Vector2();
 
         // Movement
@@ -74,14 +109,17 @@ public class PlayerMovement : MonoBehaviour {
                 if (_north && !_south && !_east && !_west) {
                     _rigidbody2D.velocity = Vector2.up * DashForce;
                 }
+
                 // South
                 if (!_north && _south && !_east && !_west) {
                     _rigidbody2D.velocity = Vector2.down * DashForce;
                 }
+
                 // East
                 if (!_north && !_south && _east && !_west) {
                     _rigidbody2D.velocity = Vector2.right * DashForce;
                 }
+
                 // West
                 if (!_north && !_south && !_east && _west) {
                     _rigidbody2D.velocity = Vector2.left * DashForce;

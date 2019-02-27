@@ -11,6 +11,8 @@ public class LivingStats : MonoBehaviour {
     public bool isStuck;
 
     [CanBeNull] public GameObject stuckTo;
+
+    [CanBeNull] public GameObject equippedWeapon;
     
     private void Awake() {
         currentHealth = health;

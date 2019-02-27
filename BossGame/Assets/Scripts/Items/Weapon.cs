@@ -82,8 +82,10 @@ public class Weapon : Item {
     public bool doesStick;
 
     protected GameObject Player;
+    protected Rigidbody2D PlayerRigidbody2D;
     protected GameObject Hand;
-    protected Animator Animator;
+    protected ImmobilizeEntity ImmobilizeEntity;
+    private Animator _animator;
     protected Rigidbody2D Rigidbody2D;
     protected Camera Camera;
     protected LookAtMouse LookAtMouse;
@@ -92,8 +94,10 @@ public class Weapon : Item {
 
     private void Awake() {
         Player = GameObject.Find("Player");
+        PlayerRigidbody2D = Player.GetComponent<Rigidbody2D>();
         Hand = Player.transform.GetChild(0).gameObject;
-        Animator = transform.parent.GetComponent<Animator>();
+        ImmobilizeEntity = Hand.GetComponent<ImmobilizeEntity>();
+        _animator = transform.parent.GetComponent<Animator>();
         Rigidbody2D = GetComponent<Rigidbody2D>();
         Camera = FindObjectOfType<Camera>();
         LookAtMouse = GetComponent<LookAtMouse>();
@@ -104,8 +108,8 @@ public class Weapon : Item {
         if (Input.GetMouseButtonDown(0)) {
             switch (attackType) {
                 case AttackType.Swing:
-                    if (!Animator.GetBool(IsSwinging)) {
-                        Animator.SetTrigger(IsSwinging);
+                    if (!_animator.GetBool(IsSwinging)) {
+                        _animator.SetTrigger(IsSwinging);
                     }
 
                     break;
@@ -138,13 +142,13 @@ public class Weapon : Item {
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    protected void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.CompareTag("Enemy")) {
             if (doesStick) {
-                var immobilizeEntity = Hand.GetComponent<ImmobilizeEntity>();
-                immobilizeEntity.entity = other.gameObject;
-                immobilizeEntity.entityStats = other.gameObject.GetComponent<LivingStats>();
-                immobilizeEntity.entityStats.stuckTo = gameObject;
+                ImmobilizeEntity.entity = other.gameObject;
+                ImmobilizeEntity.entityStats = other.gameObject.GetComponent<LivingStats>();
+                ImmobilizeEntity.entityStats.stuckTo = gameObject;
+                
             }
         }
     }
