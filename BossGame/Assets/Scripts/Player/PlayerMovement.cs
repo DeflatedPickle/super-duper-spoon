@@ -6,7 +6,7 @@ using UnityEngine;
 // ReSharper disable once CheckNamespace
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour {
-    [Range(1, 10)] public int MoveForce = 8;
+    [Range(1, 10)] public float MoveForce = 8;
 
     [Range(1, 10)] public float DashForce = 3;
     [Range(0, 4)] public float DashTime = 0.4f;
@@ -39,13 +39,13 @@ public class PlayerMovement : MonoBehaviour {
 
             if (weaponThrown) {
                 if (weaponThrown.inAir || weaponThrown.stuckInObject || weaponThrown.stuckInFloor) {
-                    if (Vector3.Distance(transform.position, item.position) > 1.5f) {
+                    if (Vector3.Distance(transform.position, item.position) > weaponThrown.chainLength + 1) {
                         if (weaponThrown.stuckInFloor) {
                             transform.position = Vector3.MoveTowards(transform.position, item.transform.position, 0.01f);
                             return;
                         }
 
-                        MoveForce /= 6;
+                        MoveForce /= 2.4f;
                         DashForce /= 1.5f;
 
                         // item.transform.parent = null;

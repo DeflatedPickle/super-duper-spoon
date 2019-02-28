@@ -13,6 +13,8 @@ public class WeaponThrown : Weapon {
     public GameObject stuckObject;
     public bool returning;
 
+    public float chainLength = 4.6f;
+
     // Sticky icky UWU
     public bool firstStick;
 
@@ -23,8 +25,8 @@ public class WeaponThrown : Weapon {
 
     private Vector3 _offset;
 
-    private readonly Vector3 _knifePointPosition = new Vector3(0f, -0.065f, 0f);
-    private readonly Vector3 _handlePointPosition = new Vector3(0f, 0.065f, 0f);
+    private readonly Vector3 _knifePointPosition = new Vector3(0f, -0.2f, 0f);
+    private readonly Vector3 _handlePointPosition = new Vector3(0f, 0.2f, 0f);
 
     private void Start() {
         _knifePoint = transform.GetChild(0).gameObject;
@@ -87,7 +89,7 @@ public class WeaponThrown : Weapon {
         }
         else {
             // It hit the floor
-            if (!stuckInObject && Vector3.Distance(transform.position, Player.transform.position) > 1.4f) {
+            if (!stuckInObject && Vector3.Distance(transform.position, Player.transform.position) > chainLength) {
                 Rigidbody2D.velocity = Vector2.zero;
                 inAir = false;
                 stuckInObject = false;
@@ -108,7 +110,7 @@ public class WeaponThrown : Weapon {
             mousePosition.z = 0f;
             var direction = (mousePosition - Player.transform.position).normalized;
             
-            Rigidbody2D.AddForce(direction * 180);
+            Rigidbody2D.AddForce(direction * 380);
             PlayerRigidbody2D.AddForce(direction * 80);
 
             inAir = true;
@@ -147,7 +149,7 @@ public class WeaponThrown : Weapon {
             stuckInFloor = false;
 
             // Stick the object more into the enemy
-            transform.position = Vector3.MoveTowards(transform.position, other.transform.position, 0.1f);
+            transform.position = Vector3.MoveTowards(transform.position, other.transform.position, 0.6f);
             _offset = transform.localPosition;
 
             stuckObject = other.gameObject;
