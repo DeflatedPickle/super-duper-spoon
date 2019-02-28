@@ -13,8 +13,15 @@ public class WeaponThrown : Weapon {
     public GameObject stuckObject;
     public bool returning;
 
+    // Sticky icky UWU
+    public bool firstStick;
+
+    public Rigidbody2D stuckObjectRigidBody;
+
     private GameObject _knifePoint;
     private GameObject _handlePoint;
+
+    private Vector3 _offset;
 
     private readonly Vector3 _knifePointPosition = new Vector3(0f, -0.065f, 0f);
     private readonly Vector3 _handlePointPosition = new Vector3(0f, 0.065f, 0f);
@@ -29,14 +36,28 @@ public class WeaponThrown : Weapon {
         _knifePoint.transform.localPosition = _knifePointPosition;
         _handlePoint.transform.localPosition = _handlePointPosition;
 
-        // Attack
-        // if (Input.GetMouseButtonDown(0)) {
-        // }
-
-        // Pick it up
+        // It hit a thing
         if (stuckInObject || stuckInFloor) {
+            if (stuckInObject) {
+                transform.localPosition = _offset;
+
+                if (firstStick) {
+                    firstStick = false;
+
+                    stuckObjectRigidBody.AddForce(stuckObject.transform.position - Player.transform.position * 14);
+                }
+            }
+            
+            // Pull it back
+            // TODO: Maybe make it pull back by spinning around, like fishing
             if (Input.GetMouseButtonDown(0)) {
                 transform.parent = null;
+
+                if (stuckInObject) {
+                    stuckObjectRigidBody.AddForce((Player.transform.position - stuckObject.transform.position) * 36);
+                    PlayerRigidbody2D.AddForce((Player.transform.position - stuckObject.transform.position) * 20);
+                }
+                
                 ImmobilizeEntity.UnstickEntity();
 
                 returning = true;
@@ -83,11 +104,10 @@ public class WeaponThrown : Weapon {
             // ReSharper disable once Unity.InefficientPropertyAccess
             transform.parent = null;
 
-            // _rigidbody2D.AddRelativeForce(Vector2.up * 140);
-
             var mousePosition = Camera.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = 0f;
-            var direction = (mousePosition - transform.position).normalized;
+            var direction = (mousePosition - Player.transform.position).normalized;
+            
             Rigidbody2D.AddForce(direction * 180);
             PlayerRigidbody2D.AddForce(direction * 80);
 
@@ -101,6 +121,8 @@ public class WeaponThrown : Weapon {
             LookAtMouse.shouldLook = false;
 
             replacementObject.SetActive(true);
+
+            firstStick = true;
         }
     }
 
@@ -126,8 +148,10 @@ public class WeaponThrown : Weapon {
 
             // Stick the object more into the enemy
             transform.position = Vector3.MoveTowards(transform.position, other.transform.position, 0.1f);
+            _offset = transform.localPosition;
 
             stuckObject = other.gameObject;
+            stuckObjectRigidBody = stuckObject.GetComponent<Rigidbody2D>();
             ImmobilizeEntity.StickEntity();
         }
     }
