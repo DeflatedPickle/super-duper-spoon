@@ -15,6 +15,12 @@ public class ItemSlotCollection : MonoBehaviour {
     public Sprite gildedSprite;
     public GameObject gildedObject;
 
+    private LivingStats _livingStats;
+
+    private void Awake() {
+        _livingStats = parent.GetComponent<LivingStats>();
+    }
+
     private void Start() {
         gildedObject = new GameObject();
         gildedObject.transform.parent = transform;
@@ -28,20 +34,38 @@ public class ItemSlotCollection : MonoBehaviour {
             slotsOpen = !slotsOpen;
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetAxis("Mouse ScrollWheel") > 0f) {
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetAxis("Mouse ScrollWheel") < 0f) {
+            if (parent.transform.childCount - 1 >= selectedSlot) {
+                parent.transform.GetChild(0).GetChild(selectedSlot).gameObject.SetActive(false);
+            }
+            
             if (selectedSlot - 1 >= 0) {
                 selectedSlot--;
             }
             else {
                 selectedSlot = transform.GetChild(0).childCount - 1;
             }
+
+            if (parent.transform.childCount - 1 >= selectedSlot) {
+                _livingStats.equippedWeapon = parent.transform.GetChild(0).GetChild(selectedSlot).gameObject;
+                parent.transform.GetChild(0).GetChild(selectedSlot).gameObject.SetActive(true);
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetAxis("Mouse ScrollWheel") < 0f) {
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetAxis("Mouse ScrollWheel") > 0f) {
+            if (parent.transform.childCount - 1 >= selectedSlot) {
+                parent.transform.GetChild(0).GetChild(selectedSlot).gameObject.SetActive(false);
+            }
+            
             if (selectedSlot + 1 < transform.GetChild(0).childCount) {
                 selectedSlot++;
             }
             else {
                 selectedSlot = 0;
+            }
+
+            if (parent.transform.childCount - 1 >= selectedSlot) {
+                _livingStats.equippedWeapon = parent.transform.GetChild(0).GetChild(selectedSlot).gameObject;
+                parent.transform.GetChild(0).GetChild(selectedSlot).gameObject.SetActive(true);
             }
         }
 
@@ -71,10 +95,12 @@ public class ItemSlotCollection : MonoBehaviour {
             }
 
             transform.GetChild(0).gameObject.SetActive(true);
+            gildedObject.SetActive(true);
         }
         // Hide the slots
         else {
             transform.GetChild(0).gameObject.SetActive(false);
+            gildedObject.SetActive(false);
         }
     }
 }

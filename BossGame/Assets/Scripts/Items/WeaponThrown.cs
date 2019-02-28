@@ -13,6 +13,7 @@ public class WeaponThrown : Weapon {
     public GameObject stuckObject;
     public bool returning;
 
+    public GameObject chains;
     public float chainLength = 4.6f;
 
     // Sticky icky UWU
@@ -156,5 +157,15 @@ public class WeaponThrown : Weapon {
             stuckObjectRigidBody = stuckObject.GetComponent<Rigidbody2D>();
             ImmobilizeEntity.StickEntity();
         }
+    }
+
+    private void OnDisable() {
+        replacementObject.SetActive(false);
+        chains.SetActive(false);
+    }
+
+    private void OnEnable() {
+        replacementObject.SetActive(true);
+        chains.SetActive(true);
     }
 }
