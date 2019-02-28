@@ -28,7 +28,7 @@ public class ItemSlotCollection : MonoBehaviour {
             slotsOpen = !slotsOpen;
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow)) {
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetAxis("Mouse ScrollWheel") > 0f) {
             if (selectedSlot - 1 >= 0) {
                 selectedSlot--;
             }
@@ -36,7 +36,7 @@ public class ItemSlotCollection : MonoBehaviour {
                 selectedSlot = transform.GetChild(0).childCount - 1;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetAxis("Mouse ScrollWheel") < 0f) {
             if (selectedSlot + 1 < transform.GetChild(0).childCount) {
                 selectedSlot++;
             }
