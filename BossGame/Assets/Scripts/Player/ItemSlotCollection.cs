@@ -80,6 +80,7 @@ public class ItemSlotCollection : MonoBehaviour {
 
                 var t = 2 * Math.PI * i / transform.GetChild(0).childCount;
 
+                // TODO: Slowly increment this for a smooth movement
                 if (selectedSlot == i) {
                     radius += 0.4f;
                 }
@@ -87,10 +88,10 @@ public class ItemSlotCollection : MonoBehaviour {
                 var x = (float) (centre.x + radius * Math.Cos(t + rotation));
                 var y = (float) (centre.y + radius * Math.Sin(t + rotation));
 
-                transform.GetChild(0).GetChild(i).position = new Vector3(x, y, -6);
+                transform.GetChild(0).GetChild(i).position = new Vector3(x, y, -2f);
 
                 if (selectedSlot == i) {
-                    gildedObject.transform.position = new Vector3(x, y, -7);
+                    gildedObject.transform.position = new Vector3(x, y, -3f);
                 }
             }
 
