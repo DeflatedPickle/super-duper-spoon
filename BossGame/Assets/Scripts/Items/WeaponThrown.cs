@@ -26,12 +26,15 @@ public class WeaponThrown : Weapon {
 
     private Vector3 _offset;
 
-    private readonly Vector3 _knifePointPosition = new Vector3(0f, -0.2f, 0f);
-    private readonly Vector3 _handlePointPosition = new Vector3(0f, 0.2f, 0f);
+    private Vector3 _knifePointPosition;
+    private Vector3 _handlePointPosition;
 
     private void Start() {
         _knifePoint = transform.GetChild(0).gameObject;
         _handlePoint = replacementObject.transform.GetChild(0).gameObject;
+
+        _knifePointPosition = _knifePoint.transform.localPosition;
+        _handlePointPosition = _handlePoint.transform.localPosition;
     }
 
     protected new void Update() {
