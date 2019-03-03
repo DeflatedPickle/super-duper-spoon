@@ -37,6 +37,7 @@ public class DirectionalLook : MonoBehaviour {
             // Down
             if (downSprite) {
                 _spriteRenderer.sprite = downSprite;
+                _spriteRenderer.flipX = false;
             }
         }
         else if (angle > 90 - 45 && angle <= 180 - 45) {
@@ -50,6 +51,7 @@ public class DirectionalLook : MonoBehaviour {
             // Up
             if (upSprite) {
                 _spriteRenderer.sprite = upSprite;
+                _spriteRenderer.flipX = false;
             }
         }
         else if (angle > 270 - 45 && angle <= 360 - 45) {

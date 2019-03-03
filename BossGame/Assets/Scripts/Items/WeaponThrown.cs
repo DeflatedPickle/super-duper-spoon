@@ -80,7 +80,7 @@ public class WeaponThrown : Weapon {
         }
 
         if (returning) {
-            transform.position = Hand.transform.position;
+            transform.position = Hand.transform.position + new Vector3(0, 0, 0.1f);
             transform.parent = Hand.transform;
 
             // replacementObject.SetActive(false);
