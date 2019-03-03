@@ -1,33 +1,30 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 // ReSharper disable once CheckNamespace
 public class WeaponThrown : Weapon {
-    public GameObject replacementObject;
+    private GameObject _handlePoint;
+    private Vector3 _handlePointPosition;
 
-    public bool inAir;
-    public bool stuckInFloor;
-    public bool stuckInObject;
-    public GameObject stuckObject;
-    public bool returning;
+    private GameObject _knifePoint;
+
+    private Vector3 _knifePointPosition;
+
+    private Vector3 _offset;
+    public float chainLength = 4.6f;
 
     public GameObject chains;
-    public float chainLength = 4.6f;
 
     // Sticky icky UWU
     public bool firstStick;
 
+    public bool inAir;
+    public GameObject replacementObject;
+    public bool returning;
+    public bool stuckInFloor;
+    public bool stuckInObject;
+    public GameObject stuckObject;
+
     public Rigidbody2D stuckObjectRigidBody;
-
-    private GameObject _knifePoint;
-    private GameObject _handlePoint;
-
-    private Vector3 _offset;
-
-    private Vector3 _knifePointPosition;
-    private Vector3 _handlePointPosition;
 
     private void Start() {
         _knifePoint = transform.GetChild(0).gameObject;
@@ -53,17 +50,20 @@ public class WeaponThrown : Weapon {
                     stuckObjectRigidBody.AddForce(stuckObject.transform.position - Player.transform.position * 14);
                 }
             }
-            
+
             // Pull it back
             // TODO: Maybe make it pull back by spinning around, like fishing
             if (Input.GetMouseButtonDown(0)) {
                 transform.parent = null;
 
                 if (stuckInObject) {
-                    stuckObjectRigidBody.AddForce((Player.transform.position - stuckObject.transform.position) * 36);
-                    PlayerRigidbody2D.AddForce((Player.transform.position - stuckObject.transform.position) * 20);
+                    stuckObject.transform.up = Vector3.zero;
+                    
+                    var direction = Player.transform.position - stuckObject.transform.position;
+                    stuckObjectRigidBody.AddForce(direction * 36);
+                    PlayerRigidbody2D.AddForce(direction * 20);
                 }
-                
+
                 ImmobilizeEntity.UnstickEntity();
 
                 returning = true;
@@ -113,7 +113,7 @@ public class WeaponThrown : Weapon {
             var mousePosition = Camera.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = 0f;
             var direction = (mousePosition - Player.transform.position).normalized;
-            
+
             Rigidbody2D.AddForce(direction * 380);
             PlayerRigidbody2D.AddForce(direction * 80);
 
@@ -133,13 +133,10 @@ public class WeaponThrown : Weapon {
     }
 
     private void OnDrawGizmos() {
-        if (replacementObject != null) {
-            if (replacementObject.activeSelf) {
-                if (_handlePoint != null && _knifePoint != null) {
+        if (replacementObject != null)
+            if (replacementObject.activeSelf)
+                if (_handlePoint != null && _knifePoint != null)
                     Debug.DrawLine(_handlePoint.transform.position, _knifePoint.transform.position);
-                }
-            }
-        }
     }
 
     protected new void OnTriggerEnter2D(Collider2D other) {

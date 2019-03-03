@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-/// <summary>
+﻿/// <summary>
 /// An item that applies an effect
 /// </summary>
 // ReSharper disable once CheckNamespace

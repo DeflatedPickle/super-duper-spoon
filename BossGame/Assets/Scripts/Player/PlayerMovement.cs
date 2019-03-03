@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 // ReSharper disable once CheckNamespace
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour {
-    [Range(1, 10)] public float MoveForce = 8;
+    [Range(1, 10)] public float moveForce = 8;
 
-    [Range(1, 10)] public float DashForce = 3;
-    [Range(0, 4)] public float DashTime = 0.4f;
+    [Range(1, 10)] public float dashForce = 3;
+    [Range(0, 4)] public float dashTime = 0.4f;
     private float _dashTimer;
     private bool _doDash;
 
     private int _facingHorizontal = 1;
-    private int _facingVertical = 1;
 
     private Rigidbody2D _rigidbody2D;
     private LivingStats _livingStats;
@@ -30,8 +26,8 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void Update() {
-        MoveForce = 8;
-        DashForce = 3;
+        moveForce = 8;
+        dashForce = 3;
         
         if (_livingStats.equippedWeapon != null) {
             var item = _livingStats.equippedWeapon.transform;
@@ -45,8 +41,8 @@ public class PlayerMovement : MonoBehaviour {
                             return;
                         }
 
-                        MoveForce /= 2.4f;
-                        DashForce /= 1.5f;
+                        moveForce /= 2.4f;
+                        dashForce /= 1.5f;
 
                         // item.transform.parent = null;
                         
@@ -68,21 +64,21 @@ public class PlayerMovement : MonoBehaviour {
         // Movement
         if (Input.GetKey(KeyCode.A)) {
             _facingHorizontal = -1;
-            moveCalc.x = _facingHorizontal * MoveForce;
+            moveCalc.x = _facingHorizontal * moveForce;
             _west = true;
         }
         else if (Input.GetKey(KeyCode.D)) {
             _facingHorizontal = 1;
-            moveCalc.x = _facingHorizontal * MoveForce;
+            moveCalc.x = _facingHorizontal * moveForce;
             _east = true;
         }
 
         if (Input.GetKey(KeyCode.W)) {
-            moveCalc.y = MoveForce;
+            moveCalc.y = moveForce;
             _north = true;
         }
         else if (Input.GetKey(KeyCode.S)) {
-            moveCalc.y = -MoveForce;
+            moveCalc.y = -moveForce;
             _south = true;
         }
 
@@ -93,7 +89,7 @@ public class PlayerMovement : MonoBehaviour {
 
         if (_doDash) {
             if (_dashTimer <= 0) {
-                _dashTimer = DashTime;
+                _dashTimer = dashTime;
                 _rigidbody2D.velocity = Vector2.zero;
 
                 _doDash = false;
@@ -107,22 +103,22 @@ public class PlayerMovement : MonoBehaviour {
 
                 // North
                 if (_north && !_south && !_east && !_west) {
-                    _rigidbody2D.velocity = Vector2.up * DashForce;
+                    _rigidbody2D.velocity = Vector2.up * dashForce;
                 }
 
                 // South
                 if (!_north && _south && !_east && !_west) {
-                    _rigidbody2D.velocity = Vector2.down * DashForce;
+                    _rigidbody2D.velocity = Vector2.down * dashForce;
                 }
 
                 // East
                 if (!_north && !_south && _east && !_west) {
-                    _rigidbody2D.velocity = Vector2.right * DashForce;
+                    _rigidbody2D.velocity = Vector2.right * dashForce;
                 }
 
                 // West
                 if (!_north && !_south && !_east && _west) {
-                    _rigidbody2D.velocity = Vector2.left * DashForce;
+                    _rigidbody2D.velocity = Vector2.left * dashForce;
                 }
             }
         }

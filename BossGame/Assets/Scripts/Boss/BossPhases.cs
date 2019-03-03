@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Serialization;
-using Random = UnityEngine.Random;
+﻿using UnityEngine;
 
 // ReSharper disable once CheckNamespace
 public class BossPhases : MonoBehaviour {
@@ -51,7 +46,7 @@ public class BossPhases : MonoBehaviour {
             currentPhase = 1;
         }
         else if (Vector3.Distance(transform.position, _player.transform.position) > 0.5f) {
-            transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, 
+            transform.position = Vector3.MoveTowards(transform.position, _player.transform.position,
                 0.2f * Time.deltaTime);
         }
     }

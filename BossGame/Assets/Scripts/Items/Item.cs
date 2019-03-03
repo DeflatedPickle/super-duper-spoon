@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 // ReSharper disable once CheckNamespace
 public class Item : MonoBehaviour {
